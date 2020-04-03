@@ -97,29 +97,31 @@ export default {
     this.$http.defaults.headers.common[
       "Authorization"
     ] = this.$store.state.token;
-    this.$http
-      .post(this.$store.state.host + "/checkauth", {})
-      .then(response => {
-        self.$store.commit("throw", response);
-        self.isLoggedIn = self.$store.state.token;
-        self.username = self.$store.state.username;
-      })
-      .catch(function(error) {
-        if (error.response) {
-          if (error.response.status == 401) {
-            self.$store.commit("logout");
-            self.$router.push("/login");
+    if (this.$store.state.token != "") {
+      this.$http
+        .post(this.$store.state.host + "/checkauth", {})
+        .then(response => {
+          self.$store.commit("throw", response);
+          self.isLoggedIn = self.$store.state.token;
+          self.username = self.$store.state.username;
+        })
+        .catch(function(error) {
+          if (error.response) {
+            if (error.response.status == 401) {
+              self.$store.commit("logout");
+              self.$router.push("/login");
+            }
+          } else {
+            self.$store.commit("throw", error);
+            self.$swal({
+              title: "Error!",
+              text: "Internal Server Error ",
+              icon: "error",
+              confirmButtonText: "Ok"
+            });
           }
-        } else {
-          self.$store.commit("throw", error);
-          self.$swal({
-            title: "Error!",
-            text: "Internal Server Error ",
-            icon: "error",
-            confirmButtonText: "Ok"
-          });
-        }
-      });
+        });
+    }
   }
 };
 </script>
