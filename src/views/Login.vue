@@ -61,8 +61,6 @@ export default {
         .then(response => {
           this.$store.commit("login_username", response.data.username);
           this.$store.commit("login_token", response.data.token);
-          var isAuthenticated = this.$store.state.token;
-          console.log("isAuthenticated : ", isAuthenticated);
           self.$swal({
             title: "Success!",
             text: "Mohon tunggu, Anda akan diarahkan ke halaman utama ",

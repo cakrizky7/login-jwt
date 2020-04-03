@@ -7,7 +7,11 @@ import store from '../store'
 Vue.use(VueRouter)
 
 var isAuthenticated = store.state.token;
-console.log("isAuthenticated : ",isAuthenticated)
+if(isAuthenticated==''){
+  isAuthenticated=false
+}else{
+  isAuthenticated=true
+}
 
 const routes = [
   {

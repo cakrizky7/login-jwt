@@ -7,9 +7,7 @@
       <v-app id="keep">
         <v-app-bar app clipped-left color="amber">
           <v-app-bar-nav-icon @click="drawer = !drawer" />
-          <span class="title ml-3 mr-5">
-            P.R.I.N.C.E. Tech&nbsp;
-          </span>
+          <span class="title ml-3 mr-5">P.R.I.N.C.E. Tech&nbsp;</span>
 
           <v-spacer />
         </v-app-bar>
@@ -89,13 +87,39 @@ export default {
   }),
   methods: {
     logout() {
-      this.$store.commit('logout')
+      this.$store.commit("logout");
       this.$router.go("/login");
     }
   },
   created() {
-    this.isLoggedIn = this.$store.state.token
-    this.username = this.$store.state.username
+    var self = this;
+    this.$http.defaults.headers.common["Content-Type"] = "application/json";
+    this.$http.defaults.headers.common[
+      "Authorization"
+    ] = this.$store.state.token;
+    this.$http
+      .post(this.$store.state.host + "/checkauth", {})
+      .then(response => {
+        self.$store.commit("throw", response);
+        self.isLoggedIn = self.$store.state.token;
+        self.username = self.$store.state.username;
+      })
+      .catch(function(error) {
+        if (error.response) {
+          if (error.response.status == 401) {
+            self.$store.commit("logout");
+            self.$router.push("/login");
+          }
+        } else {
+          self.$store.commit("throw", error);
+          self.$swal({
+            title: "Error!",
+            text: "Internal Server Error ",
+            icon: "error",
+            confirmButtonText: "Ok"
+          });
+        }
+      });
   }
 };
 </script>
