@@ -89,14 +89,13 @@ export default {
   }),
   methods: {
     logout() {
-      localStorage.setItem("username", "");
-      localStorage.setItem("jwt", "");
+      this.$store.commit('logout')
       this.$router.go("/login");
     }
   },
   created() {
-    this.isLoggedIn = localStorage.getItem("jwt");
-    this.username = localStorage.getItem("username");
+    this.isLoggedIn = this.$store.state.token
+    this.username = this.$store.state.username
   }
 };
 </script>

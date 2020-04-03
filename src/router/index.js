@@ -2,10 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
-var isAuthenticated = localStorage.getItem("jwt");
+var isAuthenticated = store.state.token;
+console.log("isAuthenticated : ",isAuthenticated)
 
 const routes = [
   {

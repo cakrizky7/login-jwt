@@ -59,9 +59,10 @@ export default {
           Password: this.password
         })
         .then(response => {
-            console.log(response)
-          localStorage.setItem("username", response.data.username);
-          localStorage.setItem("jwt", response.data.token);
+          this.$store.commit("login_username", response.data.username);
+          this.$store.commit("login_token", response.data.token);
+          var isAuthenticated = this.$store.state.token;
+          console.log("isAuthenticated : ", isAuthenticated);
           self.$swal({
             title: "Success!",
             text: "Mohon tunggu, Anda akan diarahkan ke halaman utama ",
@@ -81,7 +82,7 @@ export default {
               });
             }
           } else {
-              console.log(error)
+            console.log(error);
             self.$swal({
               title: "Error!",
               text: "Internal Server Error ",
