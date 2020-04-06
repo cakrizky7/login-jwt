@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!isLoggedIn">
+    <div v-if="isLoggedIn==''">
       <router-view></router-view>
     </div>
     <div v-if="isLoggedIn">
@@ -103,6 +103,7 @@ export default {
         .then(response => {
           self.$store.commit("throw", response);
           self.isLoggedIn = self.$store.state.token;
+          console.log(self.isLoggedIn)
           self.username = self.$store.state.username;
         })
         .catch(function(error) {

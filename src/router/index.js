@@ -17,7 +17,18 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Login,
+    beforeEnter: (to, from, next) => {
+      if (isAuthenticated) {next('/home')}
+      else {
+        console.log(to)
+        if(from.path=='/'){
+          next()
+        } else {
+          next('/login')
+        }
+      }
+    }
   },
   {
     path: '/home',

@@ -67,7 +67,7 @@ export default {
             icon: "success",
             confirmButtonText: "Ok"
           });
-          window.location = "/home";
+          self.$router.go('/home');
         })
         .catch(function(error) {
           if (error.response) {
