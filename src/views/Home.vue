@@ -24,7 +24,7 @@ export default {
           if (error.response) {
             if (error.response.status == 401) {
               self.$store.commit("logout");
-              self.$router.push("/login");
+              self.$router.go("/login");
             }
           } else {
             self.$store.commit('throw',error);
